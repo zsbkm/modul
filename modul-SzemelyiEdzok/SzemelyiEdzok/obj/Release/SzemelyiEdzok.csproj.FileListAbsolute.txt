@@ -1,0 +1,13 @@
+D:\DNN_Platform_9.11.0_Install\bin\SzemelyiEdzok.dll.config
+D:\DNN_Platform_9.11.0_Install\bin\SzemelyiEdzok.dll
+D:\DNN_Platform_9.11.0_Install\bin\SzemelyiEdzok.pdb
+D:\DNN_Platform_9.11.0_Install\DesktopModules\SzemelyiEdzok\modul-SzemelyiEdzok\SzemelyiEdzok\obj\Release\SzemelyiEdzok.csproj.AssemblyReference.cache
+D:\DNN_Platform_9.11.0_Install\DesktopModules\SzemelyiEdzok\modul-SzemelyiEdzok\SzemelyiEdzok\obj\Release\SzemelyiEdzokSzemelyiEdzok.App_LocalResources.Settings.resources
+D:\DNN_Platform_9.11.0_Install\DesktopModules\SzemelyiEdzok\modul-SzemelyiEdzok\SzemelyiEdzok\obj\Release\SzemelyiEdzok.csproj.GenerateResource.cache
+D:\DNN_Platform_9.11.0_Install\DesktopModules\SzemelyiEdzok\modul-SzemelyiEdzok\SzemelyiEdzok\obj\Release\SzemelyiEdzok.csproj.CoreCompileInputs.cache
+D:\DNN_Platform_9.11.0_Install\DesktopModules\SzemelyiEdzok\modul-SzemelyiEdzok\SzemelyiEdzok\obj\Release\Szemelyi.115FBA58.Up2Date
+D:\DNN_Platform_9.11.0_Install\DesktopModules\SzemelyiEdzok\modul-SzemelyiEdzok\SzemelyiEdzok\obj\Release\SzemelyiEdzok.dll
+D:\DNN_Platform_9.11.0_Install\DesktopModules\SzemelyiEdzok\modul-SzemelyiEdzok\SzemelyiEdzok\obj\Release\SzemelyiEdzok.pdb
+D:\DNN_Platform_9.11.0_Install\DesktopModules\bin\SzemelyiEdzok.dll.config
+D:\DNN_Platform_9.11.0_Install\DesktopModules\bin\SzemelyiEdzok.dll
+D:\DNN_Platform_9.11.0_Install\DesktopModules\bin\SzemelyiEdzok.pdb
