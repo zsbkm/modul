@@ -5,13 +5,20 @@
 @using DotNetNuke.Web.Mvc.Helpers
 
 @{
+    var currentYear = DateTime.Now.Year;
     var edzok = ViewBag.Edzok as SzemelyiEdzo[];
 }
 
 <h2>Személyi edzők</h2>
-@foreach(SzemelyiEdzo edzo in edzok)
-    {
-        <div>
-            Név: @edzo.Nev
-        </div>
-    }
+@foreach (SzemelyiEdzo edzo in edzok)
+{
+    <div>
+        Név: @edzo.Nev
+        Kor: @(currentYear-edzo.Szul_ido.Year)
+        Telefonszám: @edzo.Telefonszam
+        Email: @edzo.Email
+        Facebook: @edzo.Facebook
+        Bio: @edzo.Bio
+        Mottó: @edzo.Motto
+    </div>
+}

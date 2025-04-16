@@ -14,7 +14,6 @@ namespace SzemelyiEdzokSzemelyiEdzok.Models
     {
         public int ID { get; set; }
         public string Nev { get; set; }
-        public string Szul_hely { get; set; }
         public DateTime Szul_ido { get; set; }
         public string Telefonszam { get; set; }
         public string Email { get; set; }
