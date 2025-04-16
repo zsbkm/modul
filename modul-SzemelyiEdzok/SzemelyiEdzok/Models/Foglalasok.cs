@@ -5,7 +5,7 @@ using DotNetNuke.Entities.Content;
 using System;
 using System.Web.Caching;
 
-namespace SzemelyiEdzokSzemelyiEdzokk.Models
+namespace SzemelyiEdzokSzemelyiEdzok.Models
 {
     [TableName("Foglalasok")]
     [PrimaryKey("ID", AutoIncrement = true)]
