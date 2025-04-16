@@ -1,18 +1,9 @@
-﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<IEnumerable< SzemelyiEdzokSzemelyiEdzok.Models.Szemelyi_edzok >>
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<IEnumerable< SzemelyiEdzokSzemelyiEdzok.Models.SzemelyiEdzo >>
 
 @using System.Text.RegularExpressions
 @using DotNetNuke.Web.Mvc.Helpers
 
 
-<div id="Items-@Dnn.ModuleContext.ModuleId">
-        <ul class="tm_tl">
-            @foreach (var item in Model)
-            {
-                <li class="tm_t">
-                    <h3>@item.Nev</h3>
-                    <div class="tm_td">@item.SzulHely</div>
-                </li>
-            }
-        </ul>
-    }
-</div>
+<h2>
+    Személyi edzők
+</h2>

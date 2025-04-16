@@ -10,7 +10,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Models
     [PrimaryKey("ID", AutoIncrement = true)]
     [Cacheable("Szemelyi_edzok", CacheItemPriority.Default, 20)]
     [Scope("ModuleId")]
-    public class Szemelyi_edzok
+    public class SzemelyiEdzo
     {
         public int ID { get; set; }
         public string Nev { get; set; }
