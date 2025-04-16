@@ -398,8 +398,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-/modul-SzemelyiEdzok/SzemelyiEdzok/install/
 
-/modul-SzemelyiEdzok/SzemelyiEdzok/install/SzemelyiEdzok_00.00.01_Install.zip
-/modul-SzemelyiEdzok/SzemelyiEdzok/install/SzemelyiEdzok_00.00.01_Source.zip
-/modul-SzemelyiEdzok/.vs/modul-SzemelyiEdzok/v17/.suo
+/modul-SzemelyiEdzok/SzemelyiEdzok/install/
+/modul-SzemelyiEdzok/.vs/
