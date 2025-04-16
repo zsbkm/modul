@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
 {
-    internal class SzemelyiEdzokManager : ServiceLocator<ISzemelyiEdzokManager, SzemelyiEdzokManager>, ISzemelyiEdzokManager
+    internal class SzemelyiEdzokManager : ISzemelyiEdzokManager
     {
         public SzemelyiEdzokManager() { }
 
@@ -29,9 +29,6 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
                 return r;
             }
         }
-
-        protected override Func<ISzemelyiEdzokManager> GetFactory() => () => 
-        new SzemelyiEdzokManager(DotNetNuke.Entities.Users.UserController.Instance);
     }
 }
 
