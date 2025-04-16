@@ -400,4 +400,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 /modul-SzemelyiEdzok/SzemelyiEdzok/install/
-/modul-SzemelyiEdzok/.vs/
+/modul-SzemelyiEdzok/.vs/*
