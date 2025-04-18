@@ -7,9 +7,9 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
 {
     public class SzemelyiEdzokController : DnnController
     {
+        SzemelyiEdzokManager szemelyiEdzokManager = new SzemelyiEdzokManager();
         public ActionResult Index()
         {
-            SzemelyiEdzokManager szemelyiEdzokManager = new SzemelyiEdzokManager();
             var szemelyiEdzok = szemelyiEdzokManager.GetSzemelyiEdzok();
             ViewBag.Edzok = szemelyiEdzok;
             return View();

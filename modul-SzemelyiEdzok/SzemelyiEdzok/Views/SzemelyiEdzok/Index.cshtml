@@ -20,5 +20,79 @@
         Facebook: @edzo.Facebook
         Bio: @edzo.Bio
         Mottó: @edzo.Motto
+        Foglalás: <button class="btn btn-sm btn-primary" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok')">Kattints ide a foglaláshoz</button>
     </div>
 }
+
+<div id="foglalasModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Foglalás készítése</h5>
+            </div>
+            <div class="modal-body">
+                Név: <input id="foglaloNeve"></input>
+                Edzés típusa: <select id="sportok"></select>
+                Megjegyzés: <input id="megjegyzes"></input>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="foglalasMentes">Mentés</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="foglalasConfirmModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Foglalás megerősítése</h5>
+            </div>
+            <div class="modal-body">
+                Edző: <div id="edzoNeveConfirm"></div>
+                Időpont: <div id="idopontConfirm"></div>
+                Név: <div id="foglaloNeveConfirm"></div>
+                Edzés típusa: <div id="sportokConfirm"></div>
+                Megjegyzés: <div id="megjegyzesConfirm"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="foglalasMentesConfirm">Foglalás véglegesítése</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function startFoglalasProcess(edzoID, edzoNev, sportok) {
+        sportok.split(';').forEach(function (sport) {
+            $('#sportok').append($('<option>', {
+                text: sport
+            }));
+        })
+        $("#foglalasModal").modal("show");
+
+        $("#foglalasModal").on('hidden.bs.modal', function () {
+            $('#sportok').html('');
+            $('#foglaloNeve').val('');
+            $('#megjegyzes').val('');
+        });
+
+        $("#foglalasMentes").off('click')
+        $("#foglalasMentes").on('click', function () {
+            $('#edzoNeveConfirm').text(edzoNev);
+            $('#idopontConfirm').text('2025-01-01 15:00');
+            $('#foglaloNeveConfirm').text($('#foglaloNeve').val());
+            $('#sportokConfirm').text($('#sportok').val());
+            $('#megjegyzesConfirm').text($('#megjegyzes').val());
+
+            $("#foglalasConfirmModal").modal("show");
+        });
+
+        $("#foglalasMentesConfirm").off('click')
+        $("#foglalasMentesConfirm").on('click', function () {
+
+        });
+    }
+</script>
