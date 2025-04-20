@@ -22,10 +22,6 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
     [DnnHandleError]
     public class SettingsController : DnnController
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult Settings()
         {
@@ -35,11 +31,6 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
             return View(settings);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="supportsTokens"></param>
-        /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
         [DotNetNuke.Web.Mvc.Framework.ActionFilters.ValidateAntiForgeryToken]

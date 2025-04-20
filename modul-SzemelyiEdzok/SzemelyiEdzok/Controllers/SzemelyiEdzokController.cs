@@ -1,4 +1,6 @@
-﻿using DotNetNuke.Web.Mvc.Framework.ActionFilters;
+﻿using DotNetNuke.Collections;
+using DotNetNuke.Entities.Modules;
+using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
 using System.Linq;
@@ -22,6 +24,10 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
         [AllowAnonymous]
         public ActionResult FoglalasKeszites(int SzemelyiEdzoID, string Nev, string Sport, DateTime Idopont, string Megjegyzes)
         {
+            //var settings = new ModuleInfo().ModuleSettings;
+            //var HotCakesApiKey = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("SzemelyiEdzok_HotCakesApiKey", "");
+            //var HotCakesApiKey = settings["HotCakesApiKey"]?.ToString() ?? "DefaultValue";
+
             FoglalasokManager foglalasokManager = new FoglalasokManager();
             string resultMessage = foglalasokManager.FoglalasKeszites(SzemelyiEdzoID, Nev, Sport, Idopont, Megjegyzes);
             return Json(new { success = true, message = resultMessage }, JsonRequestBehavior.AllowGet);
