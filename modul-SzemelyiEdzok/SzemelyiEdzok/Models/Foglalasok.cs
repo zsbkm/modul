@@ -16,6 +16,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Models
         public int ID { get; set; }
         public int SzemelyiEdzoID { get; set; }
         public string Nev { get; set; }
+        public int DNN_azonosito { get; set; }
         public string Sport { get; set; }
         public DateTime Idopont { get; set; }
         public string Megjegyzes { get; set; }

@@ -10,26 +10,21 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
 {
     public class SzemelyiEdzokController : DnnController
     {
-        readonly SzemelyiEdzokManager szemelyiEdzokManager = new SzemelyiEdzokManager();
+        
         public ActionResult Index()
         {
+            SzemelyiEdzokManager szemelyiEdzokManager = new SzemelyiEdzokManager();
             var szemelyiEdzok = szemelyiEdzokManager.GetSzemelyiEdzok();
             ViewBag.Edzok = szemelyiEdzok;
             return View();
         }
 
         [AllowAnonymous]
-        public ActionResult FoglalasKeszites(int id)
+        public ActionResult FoglalasKeszites(int SzemelyiEdzoID, string Nev, string Sport, DateTime Idopont, string Megjegyzes)
         {
-            try
-            {
-                return Json(new { success = true, message = "Sikeres foglalás! " + id }, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                DotNetNuke.Services.Exceptions.Exceptions.LogException(ex);
-                return Json(new { success = false, message = "Hiba történt a foglalás során." }, JsonRequestBehavior.AllowGet);
-            }
+            FoglalasokManager foglalasokManager = new FoglalasokManager();
+            string resultMessage = foglalasokManager.FoglalasKeszites(SzemelyiEdzoID, Nev, Sport, Idopont, Megjegyzes);
+            return Json(new { success = true, message = resultMessage }, JsonRequestBehavior.AllowGet);
         }
     }
 }

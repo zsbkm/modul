@@ -20,7 +20,7 @@
         Facebook: @edzo.Facebook
         Bio: @edzo.Bio
         Mottó: @edzo.Motto
-        Foglalás: <button class="btn btn-sm btn-primary" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok')">Kattints ide a foglaláshoz</button>    
+        Foglalás: <button class="btn btn-sm btn-primary" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok')">Kattints ide a foglaláshoz</button>
     </div>
 }
 
@@ -31,9 +31,9 @@
                 <h5 class="modal-title">Foglalás készítése</h5>
             </div>
             <div class="modal-body">
-                Név: <input id="foglaloNeve"/>
-                Edzés típusa: <select id="sportok"/>
-                Megjegyzés: <input id="megjegyzes"/>
+                <p>Név: <input id="foglaloNeve" /></p>
+                <p>Edzés típusa: <select id="sportok"></select></p>
+                <p>Megjegyzés: <input id="megjegyzes" /></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="foglalasMentes">Mentés</button>
@@ -94,12 +94,22 @@
         $("#foglalasMentesConfirm").on('click', function () {
             $.ajax({
                 url: "@Url.Action("FoglalasKeszites", "SzemelyiEdzok")",
-                data: {'id': 5},
-                success: function (response) {
-                    alert(response)
+                type: "POST",
+                data: {
+                    SzemelyiEdzoID: edzoID,
+                    Nev: $('#foglaloNeveConfirm').text(),
+                    Sport: $('#sportokConfirm').text(),
+                    Idopont: $('#idopontConfirm').text(),
+                    Megjegyzes: $('#megjegyzesConfirm').text()
                 },
-                error: function (xhr, status, error) {
-                    alert('Hiba történt a foglalás során!');
+                complete: function (xhr, status) {
+                    if (xhr.status == 200) {
+                        window.location.href = "Foglalasok";
+                        alert("Sikeres foglalás!")
+                    }
+                    else {
+                        alert('Hiba történt a foglalás során, kérjük próbálkozzon újra később!')
+                    }
                 }
             });
         });

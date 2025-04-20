@@ -142,6 +142,8 @@
     <Compile Include="Models\SzemelyiEdzo.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IFoglalasokManager.cs" />
+    <Compile Include="Services\Implementations\FoglalasokManager.cs" />
     <Compile Include="Services\Implementations\SzemelyiEdzokManager.cs" />
     <Compile Include="Services\ISzemelyiEdzokManager.cs" />
   </ItemGroup>
