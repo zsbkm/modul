@@ -34,6 +34,7 @@
                 <p>Név: <input id="foglaloNeve" /></p>
                 <p>Edzés típusa: <select id="sportok"></select></p>
                 <p>Megjegyzés: <input id="megjegyzes" /></p>
+                <p>Időpont kezdete: <input id="idopont" /></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="foglalasMentes">Mentés</button>
@@ -82,7 +83,7 @@
         $("#foglalasMentes").off('click')
         $("#foglalasMentes").on('click', function () {
             $('#edzoNeveConfirm').text(edzoNev);
-            $('#idopontConfirm').text('2025-01-01 15:00');
+            $('#idopontConfirm').text($('#idopont').val());
             $('#foglaloNeveConfirm').text($('#foglaloNeve').val());
             $('#sportokConfirm').text($('#sportok').val());
             $('#megjegyzesConfirm').text($('#megjegyzes').val());
@@ -104,7 +105,7 @@
                 },
                 complete: function (xhr, status) {
                     if (xhr.status == 200) {
-                        window.location.href = "Foglalasok";
+                        //window.location.href = "Foglalasok";
                         alert("Sikeres foglalás!")
                     }
                     else {

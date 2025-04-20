@@ -12,9 +12,9 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
 {
     internal class FoglalasokManager : IFoglalasokManager
     {
-        public FoglalasokManager() { }
+        public FoglalasokManager() : this(DotNetNuke.Entities.Users.UserController.Instance) { }
 
-        internal FoglalasokManager(IUserController userController)
+        public FoglalasokManager(IUserController userController)
         {
             UserController = userController ?? throw new ArgumentNullException(nameof(userController));
         }
@@ -22,6 +22,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
         private IUserController UserController { get; }
         public string FoglalasKeszites(int SzemelyiEdzoID, string Nev, string Sport, DateTime Idopont, string Megjegyzes)
         {
+            UserInfo currentUser = UserController.GetCurrentUserInfo();
             using (var ctx = DataContext.Instance())
             {
                 Foglalasok foglalas = new Foglalasok
@@ -31,7 +32,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
                     Sport = Sport,
                     Idopont = Idopont,
                     Megjegyzes = Megjegyzes,
-                    DNN_azonosito = 5
+                    DNN_azonosito = currentUser.UserID
                 };
 
                 ctx.GetRepository<Foglalasok>().Insert(foglalas);
