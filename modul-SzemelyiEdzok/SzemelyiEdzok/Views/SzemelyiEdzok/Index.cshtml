@@ -20,7 +20,7 @@
         Facebook: @edzo.Facebook
         Bio: @edzo.Bio
         Mottó: @edzo.Motto
-        Foglalás: <button class="btn btn-sm btn-primary" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok')">Kattints ide a foglaláshoz</button>
+        Foglalás: <button class="btn btn-sm btn-primary" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok')">Kattints ide a foglaláshoz</button>    
     </div>
 }
 
@@ -31,9 +31,9 @@
                 <h5 class="modal-title">Foglalás készítése</h5>
             </div>
             <div class="modal-body">
-                Név: <input id="foglaloNeve"></input>
-                Edzés típusa: <select id="sportok"></select>
-                Megjegyzés: <input id="megjegyzes"></input>
+                Név: <input id="foglaloNeve"/>
+                Edzés típusa: <select id="sportok"/>
+                Megjegyzés: <input id="megjegyzes"/>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="foglalasMentes">Mentés</button>
@@ -92,7 +92,16 @@
 
         $("#foglalasMentesConfirm").off('click')
         $("#foglalasMentesConfirm").on('click', function () {
-
+            $.ajax({
+                url: "@Url.Action("FoglalasKeszites", "SzemelyiEdzok")",
+                data: {'id': 5},
+                success: function (response) {
+                    alert(response)
+                },
+                error: function (xhr, status, error) {
+                    alert('Hiba történt a foglalás során!');
+                }
+            });
         });
     }
 </script>

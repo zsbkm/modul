@@ -25,7 +25,8 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
         {
             using (var ctx = DataContext.Instance())
             {
-                var r = ctx.GetRepository<SzemelyiEdzo>().Find("WHERE aktiv == true").ToArray();
+                var r = ctx.GetRepository<SzemelyiEdzo>().Find("WHERE aktiv = 1").ToArray();
+                Console.WriteLine(r);
                 return r;
             }
         }
