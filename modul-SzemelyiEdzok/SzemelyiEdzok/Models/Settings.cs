@@ -18,7 +18,6 @@ namespace SzemelyiEdzokSzemelyiEdzok.Models
 {
     public class Settings
     {
-        public bool Setting1 { get; set; }
-        public DateTime Setting2 { get; set; }
+        public string HotCakesApiKey { get; set; }
     }
 }

@@ -6,15 +6,9 @@
 <fieldset>
     <div class="dnnFormItem">
         <div class="dnnLabel" style="position: relative;">
-            @Html.LabelFor(m => Model.Setting1, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => Model.HotCakesApiKey, new { @class = "col-md-2 control-label" })
         </div>
-        @Html.CheckBoxFor(m => Model.Setting1)
-    </div>
-    <div class="dnnFormItem">
-        <div class="dnnLabel" style="position: relative;">
-            @Html.LabelFor(m => Model.Setting2, new { @class = "col-md-2 control-label" })
-        </div>
-        @Html.TextBoxFor(m => Model.Setting2)
+        @Html.TextBoxFor(m => Model.HotCakesApiKey)
     </div>
 </fieldset>
 

@@ -30,8 +30,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
         public ActionResult Settings()
         {
             var settings = new Models.Settings();
-            settings.Setting1 = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("SzemelyiEdzok_Setting1", false);
-            settings.Setting2 = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("SzemelyiEdzok_Setting2", System.DateTime.Now);
+            settings.HotCakesApiKey = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("SzemelyiEdzok_HotCakesApiKey", "");
 
             return View(settings);
         }
@@ -46,8 +45,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
         [DotNetNuke.Web.Mvc.Framework.ActionFilters.ValidateAntiForgeryToken]
         public ActionResult Settings(Models.Settings settings)
         {
-            ModuleContext.Configuration.ModuleSettings["SzemelyiEdzok_Setting1"] = settings.Setting1.ToString();
-            ModuleContext.Configuration.ModuleSettings["SzemelyiEdzok_Setting2"] = settings.Setting2.ToUniversalTime().ToString("u");
+            ModuleContext.Configuration.ModuleSettings["SzemelyiEdzok_HotCakesApiKey"] = settings.HotCakesApiKey.ToString();
 
             return RedirectToDefaultRoute();
         }
