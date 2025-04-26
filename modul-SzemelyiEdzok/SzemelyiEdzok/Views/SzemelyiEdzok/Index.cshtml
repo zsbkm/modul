@@ -8,6 +8,53 @@
     var currentYear = DateTime.Now.Year;
     var edzok = ViewBag.Edzok as SzemelyiEdzo[];
 }
+<style>
+    .p-3 {
+        padding: 16px;
+    }
+
+    #selectorButtons {
+        display: flex;
+        flex-wrap: wrap; /* Engedi a gombok új sorokba tördelését */
+        justify-content: start; /* Egyenletes eloszlás a gombok között */
+        padding: 20px;
+        margin: auto;
+    }
+
+    #selectorButtons button {
+        font-size: 16px;
+        padding: 10px 20px;
+        margin: 5px; /* Kisebb távolság a gombok között */
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        min-width: 80px; /* A gombok minimális szélessége */
+        text-align: center;
+    }
+
+    #selectorButtons button:hover {
+        background-color: #0056b3;
+        transform: translateY(-3px);
+    }
+
+    #selectorButtons button:active {
+        transform: translateY(1px);
+    }
+
+    #selectorButtons button:focus {
+        outline: none;
+    }
+
+    #selectorButtons button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+
+</style>
 
 <h2>Személyi edzők</h2>
 @foreach (SzemelyiEdzo edzo in edzok)
@@ -20,21 +67,40 @@
         Facebook: @edzo.Facebook
         Bio: @edzo.Bio
         Mottó: @edzo.Motto
-        Foglalás: <button class="btn btn-sm btn-primary" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok')">Kattints ide a foglaláshoz</button>
+        Foglalás: <button class="btn btn-sm btn-primary" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok', '@edzo.Napszak')">Kattints ide a foglaláshoz</button>
     </div>
 }
 
 <div id="foglalasModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Foglalás készítése</h5>
             </div>
             <div class="modal-body">
-                <p>Név: <input id="foglaloNeve" /></p>
-                <p>Edzés típusa: <select id="sportok"></select></p>
-                <p>Megjegyzés: <input id="megjegyzes" /></p>
-                <p>Időpont kezdete: <input id="idopont" /></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Név: <input id="foglaloNeve" /></p>
+                        <p>Edzés típusa: <select id="sportok"></select></p>
+                        <p>Megjegyzés: <input id="megjegyzes" /></p>
+                        <p>Időpont kezdete: <input id="idopont" disabled/></p>
+                    </div>
+                    <div class="col-md-6 text-center" style="font-size: 150%">
+                        <div class="row" style="display: inline-block;">
+                            <button type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-backward"></i>
+                            </button>
+
+                            <span id="selectorDate" style="padding: 16px;"></span>
+
+                            <button type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-forward"></i>
+                            </button>
+                        </div>
+
+                        <div id="selectorButtons" class="row"></div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="foglalasMentes">Mentés</button>
@@ -45,7 +111,7 @@
 </div>
 
 <div id="foglalasConfirmModal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Foglalás megerősítése</h5>
@@ -66,18 +132,50 @@
 </div>
 
 <script>
-    function startFoglalasProcess(edzoID, edzoNev, sportok) {
+    var today = new Date();
+    var formattedDate = today.getFullYear() + '.' +
+        ('0' + (today.getMonth() + 1)).slice(-2) + '.' +
+        ('0' + today.getDate()).slice(-2);
+
+    function startFoglalasProcess(edzoID, edzoNev, sportok, napszak) {
         sportok.split(';').forEach(function (sport) {
             $('#sportok').append($('<option>', {
                 text: sport
             }));
         })
+
+        //Időpontválasztó init
+        $("#selectorDate").text(formattedDate);
+        let idopontok = [];
+
+        switch (napszak) {
+            case "de":
+                idopontok = ["8:00", "9:00", "10:00", "11:00"];
+                break;
+            case "du":
+                idopontok = ["13:00", "14:00", "15:00", "16:00"];
+                break;
+            case "egesznap":
+                idopontok = ["8:00", "9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
+                break;
+        }
+
+        $.each(idopontok, function (index, value) {
+            let button = $('<button type="button"></button>').text(value);
+            button.on('click', function () {
+                $('#idopont').val($('#selectorDate').text() + ' ' + value);
+            });
+            $('#selectorButtons').append(button);
+        });
+
+
         $("#foglalasModal").modal("show");
 
         $("#foglalasModal").on('hidden.bs.modal', function () {
             $('#sportok').html('');
             $('#foglaloNeve').val('');
             $('#megjegyzes').val('');
+            $('#selectorButtons').html('');
         });
 
         $("#foglalasMentes").off('click')
