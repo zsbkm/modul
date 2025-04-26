@@ -42,3 +42,26 @@ ALTER TABLE {databaseOwner}{objectQualifier}Foglalasok WITH NOCHECK ADD CONSTRAI
     REFERENCES {databaseOwner}{objectQualifier}Szemelyi_edzok ([ID])
     ON DELETE CASCADE
 END
+
+DECLARE @bvin UNIQUEIDENTIFIER = 'DFDE64B3-1FA4-48DB-B25D-3E6457E0D3F2';
+
+IF NOT EXISTS (SELECT 1 FROM hcc_Product WHERE bvin = @bvin)
+BEGIN
+    INSERT INTO hcc_Product(
+        bvin, SKU, ProductTypeId, ListPrice, SitePrice, SiteCost, TaxExempt, TaxClass,
+        NonShipping, ShipSeparately, ShippingMode, ShippingWeight, ShippingLength,
+        ShippingWidth, ShippingHeight, Status, ImageFileSmall, ImageFileMedium,
+        CreationDate, MinimumQty, ManufacturerID, VendorID, GiftWrapAllowed, ExtraShipFee,
+        LastUpdated, TemplateName, PreContentColumnId, PostContentColumnId, RewriteUrl,
+        CustomProperties, GiftWrapPrice, StoreId, Featured, AllowReviews, OutOfStockMode,
+        IsAvailableForSale, IsUserPrice, HideQty, IsSearchable, IsBundle, IsGiftCard,
+        IsRecurring, RecurringInterval, RecurringIntervalType, ShippingCharge,
+        AllowUpcharge, UpchargeAmount, UpchargeUnit
+    ) VALUES (
+        @bvin, 'SzemelyiEdzoFoglalas', NULL, 0, 0, 0, 0, '', 0, 0, 1,
+        0, 0, 0, 0, 1, '', '', GETDATE(), 0, NULL, NULL, 0, 0,
+        GETDATE(), '', '', '', 'szemelyiedzofoglalas',
+        '<?xml version="1.0" encoding="utf-16"?><ArrayOfCustomProperty xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><CustomProperty><DeveloperId>hcc</DeveloperId><Key>swatchpath</Key><Value /></CustomProperty></ArrayOfCustomProperty>',
+        0, 1, 0, NULL, 100, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3, 1
+    );
+END

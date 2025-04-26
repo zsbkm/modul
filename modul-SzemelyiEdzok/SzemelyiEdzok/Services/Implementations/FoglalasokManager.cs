@@ -54,7 +54,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
             order.Items = new List<LineItemDTO>();
             order.Items.Add(new LineItemDTO
             {
-                ProductId = "06AD9013-C5AE-435F-BB6A-4AE3576ECB86",
+                ProductId = "DFDE64B3-1FA4-48DB-B25D-3E6457E0D3F2",
                 Quantity = 1
             });
 
