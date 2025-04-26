@@ -10,7 +10,7 @@ using System.Xml.Linq;
 
 namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
 {
-    internal class SzemelyiEdzokManager : ISzemelyiEdzokManager
+    public class SzemelyiEdzokManager : ISzemelyiEdzokManager
     {
         public SzemelyiEdzokManager() { }
 
@@ -26,6 +26,15 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
             using (var ctx = DataContext.Instance())
             {
                 var r = ctx.GetRepository<SzemelyiEdzo>().Find("WHERE aktiv = 1").ToArray();
+                return r;
+            }
+        }
+
+        public string GetSzemelyiEdzoNevByID(int ID)
+        {
+            using (var ctx = DataContext.Instance())
+            {
+                var r = ctx.GetRepository<SzemelyiEdzo>().GetById(ID).Nev;
                 return r;
             }
         }

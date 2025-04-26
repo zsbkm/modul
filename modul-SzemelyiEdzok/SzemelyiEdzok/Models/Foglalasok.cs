@@ -20,5 +20,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Models
         public string Sport { get; set; }
         public DateTime Idopont { get; set; }
         public string Megjegyzes { get; set; }
+        [IgnoreColumn]
+        public string SzemelyiEdzoNev { get; set; }
     }
 }

@@ -18,7 +18,7 @@ using Hotcakes.CommerceDTO.v1.Client;
 
 namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
 {
-    internal class FoglalasokManager : IFoglalasokManager
+    public class FoglalasokManager : IFoglalasokManager
     {
         public FoglalasokManager() : this(DotNetNuke.Entities.Users.UserController.Instance) { }
 
@@ -86,6 +86,26 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
             }
 
             return "Sikeres foglalás!";
+        }
+
+        public Foglalasok[] GetFoglalasok()
+        {
+            UserInfo currentUser = UserController.GetCurrentUserInfo();
+
+            using (var ctx = DataContext.Instance())
+            {
+                if (currentUser.UserID == 1)
+                {
+                    return ctx.GetRepository<Foglalasok>().Find("").ToArray();
+                }
+                else
+                {
+                    return ctx.GetRepository<Foglalasok>().Find("WHERE DNN_azonosito = @0 or SzemelyiEdzoID = @0", currentUser.UserID).ToArray();
+                }
+
+            }
+
+
         }
     }
 }
