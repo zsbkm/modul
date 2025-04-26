@@ -28,11 +28,11 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
         }
 
         private IUserController UserController { get; }
-        public string FoglalasKeszites(int SzemelyiEdzoID, string Nev, string Sport, DateTime Idopont, string Megjegyzes)
+        public string FoglalasKeszites(int SzemelyiEdzoID, string Nev, string Sport, DateTime Idopont, string Megjegyzes, string HotCakesApiKey)
         {
             UserInfo currentUser = UserController.GetCurrentUserInfo();
 
-            Api proxy = new Api("http://www.dnndev.me/", "1-088ba0bd-3b39-4494-aae4-6ac3219d1421");
+            Api proxy = new Api("http://www.dnndev.me/", HotCakesApiKey);
 
             var order = new OrderDTO();
             // add billing information
@@ -70,7 +70,6 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
             // call the API to create the order
             ApiResponse<OrderDTO> response = proxy.OrdersCreate(order);
 
-            
             using (var ctx = DataContext.Instance())
             {
                 Foglalasok foglalas = new Foglalasok
@@ -84,9 +83,9 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
                 };
 
                 ctx.GetRepository<Foglalasok>().Insert(foglalas);
-
-                return "Sikeres foglalás!";
             }
+
+            return "Sikeres foglalás!";
         }
     }
 }

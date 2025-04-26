@@ -101,7 +101,8 @@
                     Nev: $('#foglaloNeveConfirm').text(),
                     Sport: $('#sportokConfirm').text(),
                     Idopont: $('#idopontConfirm').text(),
-                    Megjegyzes: $('#megjegyzesConfirm').text()
+                    Megjegyzes: $('#megjegyzesConfirm').text(),
+                    ModuleId: @Dnn.ActiveModule.ModuleID
                 },
                 complete: function (xhr, status) {
                     if (xhr.status == 200) {
