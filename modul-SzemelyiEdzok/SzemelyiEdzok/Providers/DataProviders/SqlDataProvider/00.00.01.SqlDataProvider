@@ -65,3 +65,26 @@ BEGIN
         0, 1, 0, NULL, 100, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 3, 1
     );
 END
+
+IF NOT EXISTS (SELECT 1 FROM hcc_ProductTranslations WHERE ProductId = @bvin)
+BEGIN
+    INSERT INTO hcc_ProductTranslations (
+        ProductId, Culture, ProductName, MetaKeywords, MetaDescription, MetaTitle,
+        ShortDescription, LongDescription, Keywords, SitePriceOverrideText, SmallImageAlternateText,
+        MediumImageAlternateText, DescriptionTabs, HiddenSearchKeywords, UserPriceLabel
+    )
+    VALUES (
+    @bvin, 'en-US', 'Személyi Edzők Foglalás', '', '', '', '', '', '', '',
+    'SzemelyiEdzokFoglalas', 'SzemelyiEdzokFoglalas', '<DescriptionTabs />', '', ''
+    );
+END
+
+IF NOT EXISTS (SELECT 1 FROM hcc_ProductInventory WHERE ProductBvin = @bvin)
+BEGIN
+    INSERT INTO hcc_ProductInventory (
+        bvin, ProductBvin, VariantId, QuantityOnHand, QuantityReserved,
+        LowStockPoint, LastUpdated, StoreId, OutOfStockPoint
+    ) VALUES (
+        CONVERT(varchar(36), NEWID()), @bvin, '', 0, 0, 0, GETDATE(), 1, 0
+    );
+END
