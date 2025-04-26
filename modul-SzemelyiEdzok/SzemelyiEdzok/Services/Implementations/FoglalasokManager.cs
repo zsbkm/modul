@@ -30,7 +30,8 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
         private IUserController UserController { get; }
         public string FoglalasKeszites(int SzemelyiEdzoID, string Nev, string Sport, DateTime Idopont, string Megjegyzes)
         {
-            
+            UserInfo currentUser = UserController.GetCurrentUserInfo();
+
             Api proxy = new Api("http://www.dnndev.me/", "1-088ba0bd-3b39-4494-aae4-6ac3219d1421");
 
             var order = new OrderDTO();
@@ -38,15 +39,15 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
             order.BillingAddress = new AddressDTO
             {
                 AddressType = AddressTypesDTO.Billing,
-                City = "West Palm Beach",
-                CountryBvin = "BF7389A2-9B21-4D33-B276-23C9C18EA0C0",
-                FirstName = "John",
-                LastName = "Dough",
-                Line1 = "319 N. Clematis Street",
-                Line2 = "Suite 500",
-                Phone = "561-228-5319",
-                PostalCode = "33401",
-                RegionBvin = "7EBE4F07-A844-47B8-BDA8-863DDDF5C778"
+                City = "Budapest",
+                CountryBvin = "ACF84F60-6B00-4131-A5BE-FA202F1EB569",
+                FirstName = "zsbkm",
+                LastName = "Fitness",
+                Line1 = "Fővám tér 8",
+                Line2 = "",
+                Phone = "36 1 482 5000",
+                PostalCode = "1093",
+                RegionBvin = ""
             };
 
             // add at least one line item
@@ -61,15 +62,15 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
             order.ShippingAddress = new AddressDTO();
             order.ShippingAddress = order.BillingAddress;
             order.ShippingAddress.AddressType = AddressTypesDTO.Shipping;
-
+            order.IsPlaced = true;
             // specify who is creating the order
-            order.UserEmail = "info@hotcakescommerce.com";
-            order.UserID = "1";
+            order.UserEmail = "";
+            order.UserID = currentUser.UserID.ToString();
 
             // call the API to create the order
             ApiResponse<OrderDTO> response = proxy.OrdersCreate(order);
 
-            UserInfo currentUser = UserController.GetCurrentUserInfo();
+            
             using (var ctx = DataContext.Instance())
             {
                 Foglalasok foglalas = new Foglalasok
