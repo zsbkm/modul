@@ -31,6 +31,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
                         string time = item.Idopont.ToString("HH:mm");
                         outputList.Add(time);
                     }
+                    outputList.Sort();
                     return Request.CreateResponse(HttpStatusCode.OK, outputList);
                 }
             }

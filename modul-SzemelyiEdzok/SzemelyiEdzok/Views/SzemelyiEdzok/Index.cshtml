@@ -160,7 +160,11 @@
                 datum: $("#selectorDate").text()
             },
             complete: function (xhr, status) {
-                idopontok = idopontok.filter(time => !xhr.responseJSON.includes(time));
+                idopontok = idopontok.filter(time => {
+                    const [hour, minute] = time.split(":");
+                    const formatted = `${hour.padStart(2, '0')}:${minute}`;
+                    return !xhr.responseJSON.includes(formatted);
+                });
                 $('#selectorButtons').html('');
                 if (idopontok.length === 0) {
                     $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
