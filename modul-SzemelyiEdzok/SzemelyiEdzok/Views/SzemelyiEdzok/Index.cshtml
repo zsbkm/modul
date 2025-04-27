@@ -53,6 +53,11 @@
         cursor: not-allowed;
     }
 
+    #selectorButtons button.active {
+        background-color: #28a745; /* Or whatever color you want for the selected button */
+        color: white;
+    }
+
 
 </style>
 
@@ -160,13 +165,19 @@
                 break;
         }
 
-        $.each(idopontok, function (index, value) {
-            let button = $('<button type="button"></button>').text(value);
-            button.on('click', function () {
-                $('#idopont').val($('#selectorDate').text() + ' ' + value);
+        if (idopontok.length === 0) {
+            $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
+        } else {
+            $.each(idopontok, function (index, value) {
+                let button = $('<button type="button"></button>').text(value);
+                button.on('click', function () {
+                    $('#idopont').val($('#selectorDate').text() + ' ' + value);
+                    $('#selectorButtons button').removeClass('active');
+                    $(this).addClass('active');
+                });
+                $('#selectorButtons').append(button);
             });
-            $('#selectorButtons').append(button);
-        });
+        }
 
 
         $("#foglalasModal").modal("show");
