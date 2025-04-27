@@ -15,8 +15,8 @@
 
     #selectorButtons {
         display: flex;
-        flex-wrap: wrap; /* Engedi a gombok új sorokba tördelését */
-        justify-content: start; /* Egyenletes eloszlás a gombok között */
+        flex-wrap: wrap;
+        justify-content: start;
         padding: 20px;
         margin: auto;
     }
@@ -24,14 +24,14 @@
     #selectorButtons button {
         font-size: 16px;
         padding: 10px 20px;
-        margin: 5px; /* Kisebb távolság a gombok között */
+        margin: 5px;
         border: none;
         background-color: #007bff;
         color: white;
         border-radius: 5px;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
-        min-width: 80px; /* A gombok minimális szélessége */
+        min-width: 80px;
         text-align: center;
     }
 
@@ -54,7 +54,7 @@
     }
 
     #selectorButtons button.active {
-        background-color: #28a745; /* Or whatever color you want for the selected button */
+        background-color: #28a745;
         color: white;
     }
 
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="foglalasMentes">Mentés</button>
+                <button type="button" class="btn btn-primary" id="foglalasMentes">Foglalás mentése</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
             </div>
         </div>
@@ -242,13 +242,18 @@
 
         $("#foglalasMentes").off('click')
         $("#foglalasMentes").on('click', function () {
-            $('#edzoNeveConfirm').text(edzoNev);
-            $('#idopontConfirm').text($('#idopont').val());
-            $('#foglaloNeveConfirm').text($('#foglaloNeve').val());
-            $('#sportokConfirm').text($('#sportok').val());
-            $('#megjegyzesConfirm').text($('#megjegyzes').val());
+            if ($('#selectorButtons button.active').length > 0 && $('#foglaloNeve').val().trim() !== '') {
+                $('#edzoNeveConfirm').text(edzoNev);
+                $('#idopontConfirm').text($('#idopont').val());
+                $('#foglaloNeveConfirm').text($('#foglaloNeve').val());
+                $('#sportokConfirm').text($('#sportok').val());
+                $('#megjegyzesConfirm').text($('#megjegyzes').val());
 
-            $("#foglalasConfirmModal").modal("show");
+                $("#foglalasConfirmModal").modal("show");
+            }
+            else {
+                alert('Válasszon időpontot és töltse ki a "Név" mezőt!')
+            }
         });
 
         $("#foglalasMentesConfirm").off('click')
@@ -266,7 +271,7 @@
                 },
                 complete: function (xhr, status) {
                     if (xhr.status == 200) {
-                        //window.location.href = "Foglalasok";
+                        window.location.href = "Foglalasok";
                         alert("Sikeres foglalás!")
                     }
                     else {
