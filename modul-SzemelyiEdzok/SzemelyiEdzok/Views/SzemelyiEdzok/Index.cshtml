@@ -92,13 +92,13 @@
                     </div>
                     <div class="col-md-6 text-center" style="font-size: 150%">
                         <div class="row" style="display: inline-block;">
-                            <button type="button" class="btn btn-default">
+                            <button id="visszaButton" type="button" class="btn btn-default">
                                 <i class="glyphicon glyphicon-backward"></i>
                             </button>
 
                             <span id="selectorDate" style="padding: 16px;"></span>
 
-                            <button type="button" class="btn btn-default">
+                            <button id="eloreButton" type="button" class="btn btn-default">
                                 <i class="glyphicon glyphicon-forward"></i>
                             </button>
                         </div>
@@ -137,20 +137,7 @@
 </div>
 
 <script>
-    var today = new Date();
-    var formattedDate = today.getFullYear() + '.' +
-        ('0' + (today.getMonth() + 1)).slice(-2) + '.' +
-        ('0' + today.getDate()).slice(-2);
-
-    function startFoglalasProcess(edzoID, edzoNev, sportok, napszak) {
-        sportok.split(';').forEach(function (sport) {
-            $('#sportok').append($('<option>', {
-                text: sport
-            }));
-        })
-
-        //Időpontválasztó init
-        $("#selectorDate").text(formattedDate);
+    function createFoglalasButtons(edzoID, napszak) {
         let idopontok = [];
 
         switch (napszak) {
@@ -174,6 +161,7 @@
             },
             complete: function (xhr, status) {
                 idopontok = idopontok.filter(time => !xhr.responseJSON.includes(time));
+                $('#selectorButtons').html('');
                 if (idopontok.length === 0) {
                     $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
                 } else {
@@ -191,7 +179,58 @@
                 $("#foglalasModal").modal("show");
             }
         });
+    };
 
+    var today = new Date();
+    var formattedDate = today.getFullYear() + '.' +
+        ('0' + (today.getMonth() + 1)).slice(-2) + '.' +
+        ('0' + today.getDate()).slice(-2);
+
+    function startFoglalasProcess(edzoID, edzoNev, sportok, napszak) {
+        sportok.split(';').forEach(function (sport) {
+            $('#sportok').append($('<option>', {
+                text: sport
+            }));
+        })
+
+        //Időpontválasztó init
+        $("#selectorDate").text(formattedDate);
+        createFoglalasButtons(edzoID, napszak)
+
+        $("#visszaButton").off('click');
+        $("#visszaButton").on('click', function () {
+            var currentDateText = $("#selectorDate").text();
+            var currentDateParts = currentDateText.split('.');
+            var year = parseInt(currentDateParts[0]);
+            var month = parseInt(currentDateParts[1]) - 1;
+            var day = parseInt(currentDateParts[2]);
+            var date = new Date(year, month, day);
+
+            if (currentDateText != formattedDate) {
+                date.setDate(date.getDate() - 1);
+                var newDate = date.getFullYear() + '.' +
+                    ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+                    ('0' + date.getDate()).slice(-2);
+                $("#selectorDate").text(newDate);
+                createFoglalasButtons(edzoID, napszak)
+            }
+        });
+
+        $("#eloreButton").off('click');
+        $("#eloreButton").on('click', function () {
+            var currentDateText = $("#selectorDate").text();
+            var currentDateParts = currentDateText.split('.');
+            var year = parseInt(currentDateParts[0]);
+            var month = parseInt(currentDateParts[1]) - 1;
+            var day = parseInt(currentDateParts[2]);
+            var date = new Date(year, month, day);
+            date.setDate(date.getDate() + 1);
+            var newDate = date.getFullYear() + '.' +
+                ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+                ('0' + date.getDate()).slice(-2);
+            $("#selectorDate").text(newDate);
+            createFoglalasButtons(edzoID, napszak)
+        });
 
         $("#foglalasModal").on('hidden.bs.modal', function () {
             $('#sportok').html('');
