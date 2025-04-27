@@ -22,6 +22,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPost]
         public ActionResult FoglalasKeszites(int SzemelyiEdzoID, string Nev, string Sport, DateTime Idopont, string Megjegyzes, int ModuleId)
         {
             var settings = new ModuleController().GetModuleSettings(ModuleId);

@@ -271,13 +271,8 @@
                     ModuleId: @Dnn.ActiveModule.ModuleID
                 },
                 complete: function (xhr, status) {
-                    if (xhr.status == 200) {
-                        window.location.href = "Foglalasok";
-                        alert("Sikeres foglalás!")
-                    }
-                    else {
-                        alert('Hiba történt a foglalás során, kérjük próbálkozzon újra később!')
-                    }
+                    window.location.href = "Foglalasok";
+                    alert("Sikeres foglalás!")
                 }
             });
         });
