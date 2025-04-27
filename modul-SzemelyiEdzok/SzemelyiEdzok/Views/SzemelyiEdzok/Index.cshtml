@@ -88,7 +88,7 @@
                         <p>Név: <input id="foglaloNeve" /></p>
                         <p>Edzés típusa: <select id="sportok"></select></p>
                         <p>Megjegyzés: <input id="megjegyzes" /></p>
-                        <p>Időpont kezdete: <input id="idopont" disabled/></p>
+                        <input id="idopont" hidden/>
                     </div>
                     <div class="col-md-6 text-center" style="font-size: 150%">
                         <div class="row" style="display: inline-block;">
@@ -166,28 +166,32 @@
         }
 
         $.ajax({
-            url: "/DesktopModules/SzemelyiEdzok/API/IdopontvalasztoApi/Get",
+            url: "/DesktopModules/SzemelyiEdzok/API/IdopontvalasztoApi/GetFoglalasok",
             type: "GET",
+            data: {
+                id: edzoID,
+                datum: $("#selectorDate").text()
+            },
             complete: function (xhr, status) {
+                idopontok = idopontok.filter(time => !xhr.responseJSON.includes(time));
+                if (idopontok.length === 0) {
+                    $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
+                } else {
+                    $.each(idopontok, function (index, value) {
+                        let button = $('<button type="button"></button>').text(value);
+                        button.on('click', function () {
+                            $('#idopont').val($('#selectorDate').text() + ' ' + value);
+                            $('#selectorButtons button').removeClass('active');
+                            $(this).addClass('active');
+                        });
+                        $('#selectorButtons').append(button);
+                    });
+                }
+
+                $("#foglalasModal").modal("show");
             }
         });
 
-        if (idopontok.length === 0) {
-            $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
-        } else {
-            $.each(idopontok, function (index, value) {
-                let button = $('<button type="button"></button>').text(value);
-                button.on('click', function () {
-                    $('#idopont').val($('#selectorDate').text() + ' ' + value);
-                    $('#selectorButtons button').removeClass('active');
-                    $(this).addClass('active');
-                });
-                $('#selectorButtons').append(button);
-            });
-        }
-
-
-        $("#foglalasModal").modal("show");
 
         $("#foglalasModal").on('hidden.bs.modal', function () {
             $('#sportok').html('');
