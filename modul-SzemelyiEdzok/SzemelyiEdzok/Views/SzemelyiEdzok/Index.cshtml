@@ -199,6 +199,7 @@
 
         $("#visszaButton").off('click');
         $("#visszaButton").on('click', function () {
+            $('#idopont').val('');
             var currentDateText = $("#selectorDate").text();
             var currentDateParts = currentDateText.split('.');
             var year = parseInt(currentDateParts[0]);
@@ -218,6 +219,7 @@
 
         $("#eloreButton").off('click');
         $("#eloreButton").on('click', function () {
+            $('#idopont').val('');
             var currentDateText = $("#selectorDate").text();
             var currentDateParts = currentDateText.split('.');
             var year = parseInt(currentDateParts[0]);
@@ -236,7 +238,6 @@
             $('#sportok').html('');
             $('#foglaloNeve').val('');
             $('#megjegyzes').val('');
-            $('#selectorButtons').html('');
         });
 
         $("#foglalasMentes").off('click')
