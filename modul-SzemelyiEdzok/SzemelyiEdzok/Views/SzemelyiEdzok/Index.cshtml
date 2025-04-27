@@ -187,6 +187,9 @@
         ('0' + today.getDate()).slice(-2);
 
     function startFoglalasProcess(edzoID, edzoNev, sportok, napszak) {
+        $('#sportok').html('');
+        $('#foglaloNeve').val('');
+        $('#megjegyzes').val('');
         sportok.split(';').forEach(function (sport) {
             $('#sportok').append($('<option>', {
                 text: sport
@@ -232,12 +235,6 @@
                 ('0' + date.getDate()).slice(-2);
             $("#selectorDate").text(newDate);
             createFoglalasButtons(edzoID, napszak)
-        });
-
-        $("#foglalasModal").on('hidden.bs.modal', function () {
-            $('#sportok').html('');
-            $('#foglaloNeve').val('');
-            $('#megjegyzes').val('');
         });
 
         $("#foglalasMentes").off('click')
