@@ -1,5 +1,5 @@
 ﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<IEnumerable<SzemelyiEdzokSzemelyiEdzok.Models.SzemelyiEdzo>>
-@using SzemelyiEdzokSzemelyiEdzok.Services
+@using SzemelyiEdzokSzemelyiEdzok.Controllers
 @using SzemelyiEdzokSzemelyiEdzok.Models
 @using System.Text.RegularExpressions
 @using DotNetNuke.Web.Mvc.Helpers
@@ -164,6 +164,13 @@
                 idopontok = ["8:00", "9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
                 break;
         }
+
+        $.ajax({
+            url: "/DesktopModules/SzemelyiEdzok/API/IdopontvalasztoApi/Get",
+            type: "GET",
+            complete: function (xhr, status) {
+            }
+        });
 
         if (idopontok.length === 0) {
             $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
