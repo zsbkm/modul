@@ -27,6 +27,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
         {
             var settings = new Models.Settings();
             settings.HotCakesApiKey = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("SzemelyiEdzok_HotCakesApiKey", "");
+            settings.SzemelyiEdzoID = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("SzemelyiEdzok_SzemelyiEdzoID", "");
 
             return View(settings);
         }
@@ -37,6 +38,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
         public ActionResult Settings(Models.Settings settings)
         {
             ModuleContext.Configuration.ModuleSettings["SzemelyiEdzok_HotCakesApiKey"] = settings.HotCakesApiKey.ToString();
+            ModuleContext.Configuration.ModuleSettings["SzemelyiEdzok_SzemelyiEdzoID"] = settings.SzemelyiEdzoID.ToString();
 
             return RedirectToDefaultRoute();
         }

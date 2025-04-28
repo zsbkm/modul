@@ -3,8 +3,11 @@ using DotNetNuke.Entities.Modules;
 using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web.Mvc;
+using SzemelyiEdzokSzemelyiEdzok.Models;
 using SzemelyiEdzokSzemelyiEdzok.Services;
 using SzemelyiEdzokSzemelyiEdzok.Services.Implementations;
 
@@ -16,7 +19,18 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
         public ActionResult Index()
         {
             SzemelyiEdzokManager szemelyiEdzokManager = new SzemelyiEdzokManager();
-            var szemelyiEdzok = szemelyiEdzokManager.GetSzemelyiEdzok();
+            var settings = new ModuleController().GetModuleSettings(ModuleContext.ModuleId);
+            var SzemelyiEdzokID = settings["SzemelyiEdzok_SzemelyiEdzoID"]?.ToString() ?? "";
+            SzemelyiEdzo[] szemelyiEdzok;
+            if (string.IsNullOrWhiteSpace(SzemelyiEdzokID))
+            {
+                szemelyiEdzok = szemelyiEdzokManager.GetSzemelyiEdzok();
+            }
+            else
+            {
+                szemelyiEdzok = szemelyiEdzokManager.GetSzemelyiEdzok(SzemelyiEdzokID);
+            }
+            
             ViewBag.Edzok = szemelyiEdzok;
             return View();
         }

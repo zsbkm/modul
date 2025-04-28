@@ -19,5 +19,6 @@ namespace SzemelyiEdzokSzemelyiEdzok.Models
     public class Settings
     {
         public string HotCakesApiKey { get; set; }
+        public string SzemelyiEdzoID { get; set; }
     }
 }

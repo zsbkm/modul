@@ -1,4 +1,4 @@
-﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage <SzemelyiEdzokSzemelyiEdzok.Models.Settings>
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<SzemelyiEdzokSzemelyiEdzok.Models.Settings>
 
 @using DotNetNuke.Web.Mvc.Helpers
 
@@ -10,5 +10,10 @@
         </div>
         @Html.TextBoxFor(m => Model.HotCakesApiKey)
     </div>
+    <div class="dnnFormItem">
+        <div class="dnnLabel" style="position: relative;">
+            @Html.LabelFor(m => Model.SzemelyiEdzoID, new { @class = "col-md-2 control-label" })
+        </div>
+        @Html.TextBoxFor(m => Model.SzemelyiEdzoID)
+    </div>
 </fieldset>
-

@@ -7,6 +7,8 @@ using SzemelyiEdzokSzemelyiEdzok.Models;
 using System;
 using System.Linq;
 using System.Xml.Linq;
+using DotNetNuke.Entities.Modules;
+using System.Reflection;
 
 namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
 {
@@ -25,8 +27,19 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
         {
             using (var ctx = DataContext.Instance())
             {
-                var r = ctx.GetRepository<SzemelyiEdzo>().Find("WHERE aktiv = 1").ToArray();
-                return r;
+                return ctx.GetRepository<SzemelyiEdzo>()
+                          .Find("WHERE aktiv = 1")
+                          .ToArray();
+            }
+        }
+
+        public SzemelyiEdzo[] GetSzemelyiEdzok(string ID)
+        {
+            using (var ctx = DataContext.Instance())
+            {
+                return ctx.GetRepository<SzemelyiEdzo>()
+                          .Find("WHERE aktiv = 1 AND ID = @0",ID)
+                          .ToArray();
             }
         }
 
