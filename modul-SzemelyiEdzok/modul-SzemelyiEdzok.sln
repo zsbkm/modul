@@ -5,6 +5,8 @@ VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SzemelyiEdzok", "SzemelyiEdzok\SzemelyiEdzok.csproj", "{4130D773-4930-4C21-9BCF-0C5244F585D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foglalasok", "Foglalasok\Foglalasok.csproj", "{3B87EE82-D21D-4BC9-80A6-0E8A9508F48F}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SzemelyiEdzok.Tests", "SzemelyiEdzok.Tests\SzemelyiEdzok.Tests.csproj", "{EADA7F41-C97A-4EDE-A7C0-437FA227FA46}"
 EndProject
 Global
@@ -17,6 +19,10 @@ Global
 		{4130D773-4930-4C21-9BCF-0C5244F585D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4130D773-4930-4C21-9BCF-0C5244F585D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4130D773-4930-4C21-9BCF-0C5244F585D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B87EE82-D21D-4BC9-80A6-0E8A9508F48F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B87EE82-D21D-4BC9-80A6-0E8A9508F48F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B87EE82-D21D-4BC9-80A6-0E8A9508F48F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B87EE82-D21D-4BC9-80A6-0E8A9508F48F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EADA7F41-C97A-4EDE-A7C0-437FA227FA46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EADA7F41-C97A-4EDE-A7C0-437FA227FA46}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EADA7F41-C97A-4EDE-A7C0-437FA227FA46}.Release|Any CPU.ActiveCfg = Release|Any CPU

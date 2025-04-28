@@ -1,5 +1,5 @@
 ﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<IEnumerable<SzemelyiEdzokSzemelyiEdzok.Models.SzemelyiEdzo>>
-@using SzemelyiEdzokSzemelyiEdzok.Services
+@using SzemelyiEdzokSzemelyiEdzok.Controllers
 @using SzemelyiEdzokSzemelyiEdzok.Models
 @using System.Text.RegularExpressions
 @using DotNetNuke.Web.Mvc.Helpers
@@ -8,6 +8,58 @@
     var currentYear = DateTime.Now.Year;
     var edzok = ViewBag.Edzok as SzemelyiEdzo[];
 }
+<style>
+    .p-3 {
+        padding: 16px;
+    }
+
+    #selectorButtons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        padding: 20px;
+        margin: auto;
+    }
+
+    #selectorButtons button {
+        font-size: 16px;
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        min-width: 80px;
+        text-align: center;
+    }
+
+    #selectorButtons button:hover {
+        background-color: #0056b3;
+        transform: translateY(-3px);
+    }
+
+    #selectorButtons button:active {
+        transform: translateY(1px);
+    }
+
+    #selectorButtons button:focus {
+        outline: none;
+    }
+
+    #selectorButtons button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    #selectorButtons button.active {
+        background-color: #28a745;
+        color: white;
+    }
+
+
+</style>
 
 <h2>Személyi edzők</h2>
 @foreach (SzemelyiEdzo edzo in edzok)
@@ -20,5 +72,211 @@
         Facebook: @edzo.Facebook
         Bio: @edzo.Bio
         Mottó: @edzo.Motto
+        Foglalás: <button class="btn btn-sm btn-primary" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok', '@edzo.Napszak')">Kattints ide a foglaláshoz</button>
     </div>
 }
+
+<div id="foglalasModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Foglalás készítése (<span id="modalEdzoNev"/>)</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Név: <input id="foglaloNeve" /></p>
+                        <p>Edzés típusa: <select id="sportok"></select></p>
+                        <p>Megjegyzés: <input id="megjegyzes" /></p>
+                        <input id="idopont" hidden/>
+                    </div>
+                    <div class="col-md-6 text-center" style="font-size: 150%">
+                        <div class="row" style="display: inline-block;">
+                            <button id="visszaButton" type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-backward"></i>
+                            </button>
+
+                            <span id="selectorDate" style="padding: 16px;"></span>
+
+                            <button id="eloreButton" type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-forward"></i>
+                            </button>
+                        </div>
+
+                        <div id="selectorButtons" class="row"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="foglalasMentes">Foglalás mentése</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="foglalasConfirmModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Foglalás megerősítése</h5>
+            </div>
+            <div class="modal-body">
+                <p>Edző: <span id="edzoNeveConfirm"></span></p>
+                <p>Időpont: <span id="idopontConfirm"></span></p>
+                <p>Név: <span id="foglaloNeveConfirm"></span></p>
+                <p>Edzés típusa: <span id="sportokConfirm"></span></p>
+                <p>Megjegyzés: <span id="megjegyzesConfirm"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="foglalasMentesConfirm">Foglalás véglegesítése</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function createFoglalasButtons(edzoID, napszak) {
+        let idopontok = [];
+
+        switch (napszak) {
+            case "de":
+                idopontok = ["8:00", "9:00", "10:00", "11:00"];
+                break;
+            case "du":
+                idopontok = ["13:00", "14:00", "15:00", "16:00"];
+                break;
+            case "egesznap":
+                idopontok = ["8:00", "9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
+                break;
+        }
+
+        $.ajax({
+            url: "/DesktopModules/SzemelyiEdzok/API/IdopontvalasztoApi/GetFoglalasok",
+            type: "GET",
+            data: {
+                id: edzoID,
+                datum: $("#selectorDate").text()
+            },
+            complete: function (xhr, status) {
+                idopontok = idopontok.filter(time => {
+                    const [hour, minute] = time.split(":");
+                    const formatted = `${hour.padStart(2, '0')}:${minute}`;
+                    return !xhr.responseJSON.includes(formatted);
+                });
+                $('#selectorButtons').html('');
+                if (idopontok.length === 0) {
+                    $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
+                } else {
+                    $.each(idopontok, function (index, value) {
+                        let button = $('<button type="button"></button>').text(value);
+                        button.on('click', function () {
+                            $('#idopont').val($('#selectorDate').text() + ' ' + value);
+                            $('#selectorButtons button').removeClass('active');
+                            $(this).addClass('active');
+                        });
+                        $('#selectorButtons').append(button);
+                    });
+                }
+
+                $("#foglalasModal").modal("show");
+            }
+        });
+    };
+
+    var today = new Date();
+    var formattedDate = today.getFullYear() + '.' +
+        ('0' + (today.getMonth() + 1)).slice(-2) + '.' +
+        ('0' + today.getDate()).slice(-2);
+
+    function startFoglalasProcess(edzoID, edzoNev, sportok, napszak) {
+        $('#sportok').html('');
+        $('#foglaloNeve').val('');
+        $('#megjegyzes').val('');
+        $('#modalEdzoNev').text(edzoNev);
+        
+        sportok.split(';').forEach(function (sport) {
+            $('#sportok').append($('<option>', {
+                text: sport
+            }));
+        })
+
+        //Időpontválasztó init
+        $("#selectorDate").text(formattedDate);
+        createFoglalasButtons(edzoID, napszak)
+
+        $("#visszaButton").off('click');
+        $("#visszaButton").on('click', function () {
+            $('#idopont').val('');
+            var currentDateText = $("#selectorDate").text();
+            var currentDateParts = currentDateText.split('.');
+            var year = parseInt(currentDateParts[0]);
+            var month = parseInt(currentDateParts[1]) - 1;
+            var day = parseInt(currentDateParts[2]);
+            var date = new Date(year, month, day);
+
+            if (currentDateText != formattedDate) {
+                date.setDate(date.getDate() - 1);
+                var newDate = date.getFullYear() + '.' +
+                    ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+                    ('0' + date.getDate()).slice(-2);
+                $("#selectorDate").text(newDate);
+                createFoglalasButtons(edzoID, napszak)
+            }
+        });
+
+        $("#eloreButton").off('click');
+        $("#eloreButton").on('click', function () {
+            $('#idopont').val('');
+            var currentDateText = $("#selectorDate").text();
+            var currentDateParts = currentDateText.split('.');
+            var year = parseInt(currentDateParts[0]);
+            var month = parseInt(currentDateParts[1]) - 1;
+            var day = parseInt(currentDateParts[2]);
+            var date = new Date(year, month, day);
+            date.setDate(date.getDate() + 1);
+            var newDate = date.getFullYear() + '.' +
+                ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+                ('0' + date.getDate()).slice(-2);
+            $("#selectorDate").text(newDate);
+            createFoglalasButtons(edzoID, napszak)
+        });
+
+        $("#foglalasMentes").off('click')
+        $("#foglalasMentes").on('click', function () {
+            if ($('#selectorButtons button.active').length > 0 && $('#foglaloNeve').val().trim() !== '') {
+                $('#edzoNeveConfirm').text(edzoNev);
+                $('#idopontConfirm').text($('#idopont').val());
+                $('#foglaloNeveConfirm').text($('#foglaloNeve').val());
+                $('#sportokConfirm').text($('#sportok').val());
+                $('#megjegyzesConfirm').text($('#megjegyzes').val());
+
+                $("#foglalasConfirmModal").modal("show");
+            }
+            else {
+                alert('Válasszon időpontot és töltse ki a "Név" mezőt!')
+            }
+        });
+
+        $("#foglalasMentesConfirm").off('click')
+        $("#foglalasMentesConfirm").on('click', function () {
+            $.ajax({
+                url: "@Url.Action("FoglalasKeszites", "SzemelyiEdzok")",
+                type: "POST",
+                data: {
+                    SzemelyiEdzoID: edzoID,
+                    Nev: $('#foglaloNeveConfirm').text(),
+                    Sport: $('#sportokConfirm').text(),
+                    Idopont: $('#idopontConfirm').text(),
+                    Megjegyzes: $('#megjegyzesConfirm').text(),
+                    ModuleId: @Dnn.ActiveModule.ModuleID
+                },
+                complete: function (xhr, status) {
+                    window.location.href = "Foglalasok";
+                    alert("Sikeres foglalás!")
+                }
+            });
+        });
+    }
+</script>
