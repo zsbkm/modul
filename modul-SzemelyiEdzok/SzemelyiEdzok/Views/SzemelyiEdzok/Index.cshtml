@@ -80,7 +80,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Foglalás készítése</h5>
+                <h5 class="modal-title">Foglalás készítése (<span id="modalEdzoNev"/>)</h5>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -194,6 +194,8 @@
         $('#sportok').html('');
         $('#foglaloNeve').val('');
         $('#megjegyzes').val('');
+        $('#modalEdzoNev').text(edzoNev);
+        
         sportok.split(';').forEach(function (sport) {
             $('#sportok').append($('<option>', {
                 text: sport
