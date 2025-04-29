@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SzemelyiEdzok", "SzemelyiEd
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Foglalasok", "Foglalasok\Foglalasok.csproj", "{3B87EE82-D21D-4BC9-80A6-0E8A9508F48F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SzemelyiEdzok.Tests", "SzemelyiEdzok.Tests\SzemelyiEdzok.Tests.csproj", "{EADA7F41-C97A-4EDE-A7C0-437FA227FA46}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Modul.Tests", "SzemelyiEdzok.Tests\Modul.Tests.csproj", "{EADA7F41-C97A-4EDE-A7C0-437FA227FA46}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
