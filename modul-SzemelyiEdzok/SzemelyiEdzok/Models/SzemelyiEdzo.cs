@@ -22,5 +22,6 @@ namespace SzemelyiEdzokSzemelyiEdzok.Models
         public string Motto { get; set; }
         public string Sportok { get; set; }
         public string Napszak { get; set; }
+        public string DNN_azonosito {  get; set; }
     }
 }
