@@ -32,7 +32,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
         {
             UserInfo currentUser = UserController.GetCurrentUserInfo();
 
-            Api proxy = new Api("http://www.dnndev.me/", HotCakesApiKey);
+            Api proxy = new Api("http://rendfejl1000.northeurope.cloudapp.azure.com:8080/", HotCakesApiKey);
 
             var order = new OrderDTO();
             // add billing information
@@ -94,18 +94,18 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
 
             using (var ctx = DataContext.Instance())
             {
-                if (currentUser.UserID == 1)
+                if (currentUser.IsSuperUser)
                 {
                     return ctx.GetRepository<Foglalasok>().Find("").ToArray();
                 }
                 else
                 {
-                    return ctx.GetRepository<Foglalasok>().Find("WHERE DNN_azonosito = @0 or SzemelyiEdzoID = @0", currentUser.UserID).ToArray();
+                    // Modified query with JOIN and OR condition
+                    return ctx.GetRepository<Foglalasok>()
+                        .Find("JOIN Szemelyi_edzok ON Foglalasok.SzemelyiEdzoID = Szemelyi_edzok.ID WHERE Foglalasok.DNN_azonosito = @0 OR Szemelyi_edzok.DNN_azonosito = @0", currentUser.UserID)
+                        .ToArray();
                 }
-
             }
-
-
         }
     }
 }
