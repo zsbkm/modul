@@ -165,6 +165,15 @@
                     const formatted = `${hour.padStart(2, '0')}:${minute}`;
                     return !xhr.responseJSON.includes(formatted);
                 });
+                if ($("#selectorDate").text() === formattedDate) {
+                    idopontok = idopontok.filter(time => {
+                        const [timeHour, timeMinute] = time.split(':').map(Number);
+                        const [currentHour, currentMinute] = currentTime.split(':').map(Number);
+                        const timeInMinutes = timeHour * 60 + timeMinute;
+                        const currentInMinutes = currentHour * 60 + currentMinute;
+                        return timeInMinutes > currentInMinutes;
+                    });
+                }
                 $('#selectorButtons').html('');
                 if (idopontok.length === 0) {
                     $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
@@ -185,10 +194,11 @@
         });
     };
 
-    var today = new Date();
-    var formattedDate = today.getFullYear() + '.' +
-        ('0' + (today.getMonth() + 1)).slice(-2) + '.' +
-        ('0' + today.getDate()).slice(-2);
+    const now = new Date();
+    const formattedDate = now.getFullYear() + '.' +
+        ('0' + (now.getMonth() + 1)).slice(-2) + '.' +
+        ('0' + now.getDate()).slice(-2);
+    const currentTime = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
 
     function startFoglalasProcess(edzoID, edzoNev, sportok, napszak) {
         $('#sportok').html('');
