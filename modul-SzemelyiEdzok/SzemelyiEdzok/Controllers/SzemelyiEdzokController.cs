@@ -15,7 +15,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
 {
     public class SzemelyiEdzokController : DnnController
     {
-        
+        [AllowAnonymous]
         public ActionResult Index()
         {
             SzemelyiEdzokManager szemelyiEdzokManager = new SzemelyiEdzokManager();

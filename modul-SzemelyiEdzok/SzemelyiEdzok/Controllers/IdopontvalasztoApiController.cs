@@ -1,21 +1,17 @@
-﻿using DotNetNuke.Entities.Modules;
-using DotNetNuke.Web.Api;
+﻿using DotNetNuke.Web.Api;
 using System;
-using System.Net.Http;
-using System.Net;
-using System.Web.Mvc;
-using SzemelyiEdzokSzemelyiEdzok.Services.Implementations;
+using System.Collections.Generic;
 using DotNetNuke.Data;
 using SzemelyiEdzokSzemelyiEdzok.Models;
-using System.Collections.Generic;
+using System.Web.Http;
 
 namespace SzemelyiEdzokSzemelyiEdzok.Controllers
 {
+    [DnnAuthorize(StaticRoles = "Registered Users")]
     public class IdopontvalasztoApiController : DnnApiController
     {
         [HttpGet]
-        [AllowAnonymous]
-        public HttpResponseMessage GetFoglalasok(int id, DateTime datum)
+        public IHttpActionResult GetFoglalasok(int id, DateTime datum)
         {
             try
             {
@@ -32,12 +28,12 @@ namespace SzemelyiEdzokSzemelyiEdzok.Controllers
                         outputList.Add(time);
                     }
                     outputList.Sort();
-                    return Request.CreateResponse(HttpStatusCode.OK, outputList);
+                    return Ok(outputList);
                 }
             }
             catch (Exception ex)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+                return InternalServerError(ex);
             }
         }
     }
