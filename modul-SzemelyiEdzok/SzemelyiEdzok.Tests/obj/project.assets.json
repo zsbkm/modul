@@ -123,6 +123,15 @@
             "related": ".xml"
           }
         }
+      },
+      "SzemelyiEdzok/1.0.0": {
+        "type": "project",
+        "compile": {
+          "bin/placeholder/SzemelyiEdzok.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SzemelyiEdzok.dll": {}
+        }
       }
     }
   },
@@ -376,15 +385,20 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "SzemelyiEdzok/1.0.0": {
+      "type": "project",
+      "path": "../SzemelyiEdzok/SzemelyiEdzok.csproj",
+      "msbuildProject": "../SzemelyiEdzok/SzemelyiEdzok.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETFramework,Version=v4.7.2": [
-      "C:\\Users\\skiki\\Source\\Repos\\modul\\modul-SzemelyiEdzok\\SzemelyiEdzok\\SzemelyiEdzok.csproj",
       "Microsoft.NET.Test.Sdk >= 17.9.0",
       "Moq >= 4.18.4",
       "NUnit >= 3.13.3",
-      "NUnit3TestAdapter >= 4.5.0"
+      "NUnit3TestAdapter >= 4.5.0",
+      "SzemelyiEdzok >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -461,16 +475,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1105",
-      "level": "Error",
-      "message": "Unable to find project information for 'C:\\Users\\skiki\\Source\\Repos\\modul\\modul-SzemelyiEdzok\\SzemelyiEdzok\\SzemelyiEdzok.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
-      "libraryId": "C:\\Users\\skiki\\Source\\Repos\\modul\\modul-SzemelyiEdzok\\SzemelyiEdzok\\SzemelyiEdzok.csproj",
-      "targetGraphs": [
-        ".NETFramework,Version=v4.7.2"
-      ]
-    }
-  ]
+  }
 }
