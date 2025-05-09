@@ -1,4 +1,0 @@
-C:\Users\skiki\Source\Repos\modul\modul-SzemelyiEdzok\Foglalasok\obj\Debug\Foglalasok.csproj.AssemblyReference.cache
-C:\Users\skiki\Source\Repos\modul\modul-SzemelyiEdzok\Foglalasok\obj\Debug\Foglalasok.Foglalasok.App_LocalResources.Settings.resources
-C:\Users\skiki\Source\Repos\modul\modul-SzemelyiEdzok\Foglalasok\obj\Debug\Foglalasok.csproj.GenerateResource.cache
-C:\Users\skiki\Source\Repos\modul\modul-SzemelyiEdzok\Foglalasok\obj\Debug\Foglalasok.csproj.CoreCompileInputs.cache

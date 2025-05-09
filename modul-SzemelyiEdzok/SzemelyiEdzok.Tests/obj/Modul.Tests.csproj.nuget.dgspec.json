@@ -74,22 +74,6 @@
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.100\\RuntimeIdentifierGraph.json"
         }
       }
-    },
-    "C:\\Users\\skiki\\Source\\Repos\\modul\\modul-SzemelyiEdzok\\SzemelyiEdzok\\SzemelyiEdzok.csproj": {
-      "restore": {
-        "projectUniqueName": "C:\\Users\\skiki\\Source\\Repos\\modul\\modul-SzemelyiEdzok\\SzemelyiEdzok\\SzemelyiEdzok.csproj",
-        "projectName": "SzemelyiEdzok",
-        "projectPath": "C:\\Users\\skiki\\Source\\Repos\\modul\\modul-SzemelyiEdzok\\SzemelyiEdzok\\SzemelyiEdzok.csproj",
-        "UsingMicrosoftNETSdk": false,
-        "frameworks": {
-          "net472": {
-            "projectReferences": {}
-          }
-        }
-      },
-      "frameworks": {
-        "net472": {}
-      }
     }
   }
 }
