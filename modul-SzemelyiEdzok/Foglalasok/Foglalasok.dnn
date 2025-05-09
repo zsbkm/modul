@@ -1,8 +1,8 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="SzemelyiEdzok" type="Module" version="00.00.01">
-      <friendlyName>SzemelyiEdzok</friendlyName>
-      <description>SzemelyiEdzok</description>
+    <package name="Foglalasok" type="Module" version="00.00.01">
+      <friendlyName>Foglalasok</friendlyName>
+      <description>Foglalasok</description>
       <iconFile>~/Icons/Sigma/Software_32X32_Standard.png</iconFile>
       <owner>
         <name>zsbkm</name>
@@ -16,24 +16,9 @@
         <dependency type="CoreVersion">09.08.00</dependency>
       </dependencies>
       <components>
-        <component type="Script">
-          <scripts>
-            <basePath>DesktopModules\MVC\SzemelyiEdzok</basePath>
-            <script type="Install">
-              <path>Providers\DataProviders\SqlDataProvider</path>
-              <name>00.00.01.SqlDataProvider</name>
-              <version>00.00.01</version>
-            </script>
-            <script type="UnInstall">
-              <path>Providers\DataProviders\SqlDataProvider</path>
-              <name>Uninstall.SqlDataProvider</name>
-              <version>00.00.01</version>
-            </script>
-          </scripts>
-        </component>
-        <component type="ResourceFile">
+               <component type="ResourceFile">
           <resourceFiles>
-            <basePath>DesktopModules/MVC/SzemelyiEdzok</basePath>
+            <basePath>DesktopModules/MVC/Foglalasok</basePath>
             <resourceFile>
               <name>Resources.zip</name>
             </resourceFile>
@@ -41,18 +26,18 @@
         </component>
         <component type="Module">
           <desktopModule>
-            <moduleName>SzemelyiEdzok</moduleName>
-            <foldername>SzemelyiEdzok</foldername>
-            <businessControllerClass>SzemelyiEdzokSzemelyiEdzok.Components.FeatureController</businessControllerClass>
+            <moduleName>Foglalasok</moduleName>
+            <foldername>Foglalasok</foldername>
+            <businessControllerClass>Foglalasok.Foglalasok.Components.FeatureController</businessControllerClass>
             <supportedFeatures />
             <moduleDefinitions>
               <moduleDefinition>
-                <friendlyName>SzemelyiEdzok</friendlyName>
+                <friendlyName>Foglalasok</friendlyName>
                 <defaultCacheTime>0</defaultCacheTime>
                 <moduleControls>
                   <moduleControl>
                     <controlKey />
-                    <controlSrc>SzemelyiEdzokSzemelyiEdzok.Controllers/SzemelyiEdzok/Index.mvc</controlSrc>
+                    <controlSrc>Foglalasok.Foglalasok.Controllers/Foglalasok/Index.mvc</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
                     <controlTitle />
                     <controlType>View</controlType>
@@ -62,9 +47,9 @@
                   </moduleControl>
                   <moduleControl>
                     <controlKey>Settings</controlKey>
-                    <controlSrc>SzemelyiEdzokSzemelyiEdzok.Controllers/Settings/Settings.mvc</controlSrc>
+                    <controlSrc>Foglalasok.Foglalasok.Controllers/Settings/Settings.mvc</controlSrc>
                     <supportsPartialRendering>False</supportsPartialRendering>
-                    <controlTitle>SzemelyiEdzok Settings</controlTitle>
+                    <controlTitle>Foglalasok Settings</controlTitle>
                     <controlType>Edit</controlType>
                     <iconFile />
                     <helpUrl />
@@ -78,7 +63,7 @@
         <component type="Assembly">
           <assemblies>
             <assembly>
-              <name>SzemelyiEdzok.dll</name>
+              <name>Foglalasok.dll</name>
               <path>bin</path>
             </assembly>
           </assemblies>

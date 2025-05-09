@@ -14,11 +14,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace SzemelyiEdzokSzemelyiEdzok.Models
+namespace Foglalasok.Foglalasok.Models
 {
     public class Settings
     {
-        public string HotCakesApiKey { get; set; }
-        public string SzemelyiEdzoID { get; set; }
+        public bool Setting1 { get; set; }
+        public DateTime Setting2 { get; set; }
     }
 }

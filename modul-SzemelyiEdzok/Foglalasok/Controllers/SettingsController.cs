@@ -16,29 +16,38 @@ using DotNetNuke.Web.Mvc.Framework.ActionFilters;
 using DotNetNuke.Web.Mvc.Framework.Controllers;
 using System.Web.Mvc;
 
-namespace SzemelyiEdzokSzemelyiEdzok.Controllers
+namespace Foglalasok.Foglalasok.Controllers
 {
     [DnnModuleAuthorize(AccessLevel = SecurityAccessLevel.Edit)]
     [DnnHandleError]
     public class SettingsController : DnnController
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Settings()
         {
             var settings = new Models.Settings();
-            settings.HotCakesApiKey = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("SzemelyiEdzok_HotCakesApiKey", "");
-            settings.SzemelyiEdzoID = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("SzemelyiEdzok_SzemelyiEdzoID", "");
+            settings.Setting1 = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("Foglalasok_Setting1", false);
+            settings.Setting2 = ModuleContext.Configuration.ModuleSettings.GetValueOrDefault("Foglalasok_Setting2", System.DateTime.Now);
 
             return View(settings);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="supportsTokens"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateInput(false)]
         [DotNetNuke.Web.Mvc.Framework.ActionFilters.ValidateAntiForgeryToken]
         public ActionResult Settings(Models.Settings settings)
         {
-            ModuleContext.Configuration.ModuleSettings["SzemelyiEdzok_HotCakesApiKey"] = settings.HotCakesApiKey.ToString();
-            ModuleContext.Configuration.ModuleSettings["SzemelyiEdzok_SzemelyiEdzoID"] = settings.SzemelyiEdzoID.ToString();
+            ModuleContext.Configuration.ModuleSettings["Foglalasok_Setting1"] = settings.Setting1.ToString();
+            ModuleContext.Configuration.ModuleSettings["Foglalasok_Setting2"] = settings.Setting2.ToUniversalTime().ToString("u");
 
             return RedirectToDefaultRoute();
         }

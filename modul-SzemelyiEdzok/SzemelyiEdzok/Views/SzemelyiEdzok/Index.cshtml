@@ -1,0 +1,449 @@
+﻿@inherits DotNetNuke.Web.Mvc.Framework.DnnWebViewPage<IEnumerable<SzemelyiEdzokSzemelyiEdzok.Models.SzemelyiEdzo>>
+@using SzemelyiEdzokSzemelyiEdzok.Controllers
+@using SzemelyiEdzokSzemelyiEdzok.Models
+@using System.Text.RegularExpressions
+@using DotNetNuke.Web.Mvc.Helpers
+
+@{
+    var currentYear = DateTime.Now.Year;
+    var edzok = ViewBag.Edzok as SzemelyiEdzo[];
+}
+<style>
+    .edzo-container {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .edzo-card {
+        width: 100%;
+        background-color: #e6ffe6;
+        border: 2px solid #a6e6a6;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .edzo-card h5 {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .edzo-card p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-bottom: 6px;
+    }
+
+    .foglalas-btn {
+        margin-top: 12px;
+        background-color: #77dd77;
+        border: none;
+        border-radius: 6px;
+        padding: 10px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        color: #000;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .foglalas-btn:hover {
+        background-color: #66cc66;
+    }
+
+
+    .p-3 {
+        padding: 16px;
+    }
+
+    #selectorButtons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        padding: 20px;
+        margin: auto;
+    }
+
+    #selectorButtons button {
+        font-size: 16px;
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        background-color: #c3e6c3; /* Halvány zöld háttérszín */
+        color: #000;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        min-width: 80px;
+        text-align: center;
+    }
+
+    #selectorButtons button:hover {
+        background-color: #77dd77; /* Erősebb zöld, amikor rámutatunk */
+        transform: translateY(-3px); /* Kicsit megemelkedik hover állapotban */
+    }
+
+    #selectorButtons button:active {
+        background-color: #66cc66; /* Még erősebb zöld, amikor rákattintanak */
+        transform: translateY(1px); /* Kisebb mozgás, amikor rákattintanak */
+    }
+
+    #selectorButtons button:focus {
+        outline: none; /* Nincs szegély, ha rákattintottak */
+    }
+
+    #selectorButtons button:disabled {
+        background-color: #e0e0e0; /* Szürke háttér, ha a gomb nem választható */
+        cursor: not-allowed; /* Nincs lehetőség kattintani */
+    }
+
+    #selectorButtons button.active {
+        background-color: #66cc66; /* Erősebb zöld, ha a gomb aktív */
+        color: white; /* Fehér szöveg az aktív gombon */
+    }
+
+
+    /* Modal Header */
+    .modal-header {
+        background-color: #e6ffe6; /* Modal fejléc háttérszíne (hasonló a kártyához) */
+        color: #000; /* Fejléc szövegszíne */
+        border-bottom: 2px solid #a6e6a6; /* Külön vonal a fejléc alatt */
+        border-radius: 12px 12px 0 0; /* A felső sarkok lekerekítése */
+        padding: 16px;
+    }
+
+    /* Modal Title */
+    .modal-title {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* Modal Body */
+    .modal-body {
+        background-color: #f9f9f9; /* Világos háttér a testhez */
+        padding: 24px;
+        border-radius: 0 0 12px 12px; /* Alsó sarkok lekerekítése */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Enyhe árnyék a modal körül */
+    }
+
+    /* Inputok és textarea */
+    .modal-body input, .modal-body select, .modal-body textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #a6e6a6; /* Szegély a bemeneti mezőknek */
+        border-radius: 6px; /* Lekerekített sarkok */
+        margin-bottom: 12px; /* Alul térköz */
+    }
+
+    /* Gombok */
+    .btn-primary {
+        background-color: #77dd77;
+        border-color: #66cc66;
+        font-weight: bold;
+        border-radius: 6px;
+        padding: 10px 16px;
+        font-size: 16px;
+    }
+
+    .btn-primary:hover {
+        background-color: #66cc66;
+        border-color: #55aa55;
+    }
+
+    .btn-secondary {
+        background-color: #ccc;
+        color: #000;
+        border-radius: 6px;
+        padding: 10px 16px;
+        font-size: 16px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #bbb;
+    }
+
+    /* Modal Dialog (magasság, szélesség, és középre igazítás) */
+    .modal-dialog {
+        max-width: 800px;
+        margin: 30px auto;
+    }
+
+    /* Modal Content */
+    .modal-content {
+        border-radius: 12px; /* A teljes modal lekerekített sarkai */
+    }
+
+    /* Modal Buttons (gombok elhelyezése) */
+    .modal-footer {
+        background-color: #f9f9f9;
+        border-top: 1px solid #e1e1e1;
+        padding: 12px;
+    }
+
+    /* Foglalás mentése gomb alapértelmezett stílusa */
+    #foglalasMentes {
+        background-color: #c3e6c3; /* Halvány zöld háttérszín */
+        color: #000; /* Fekete szöveg */
+        border: none;
+        border-radius: 6px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    /* Hover állapot (amikor rámutatunk a gombra) */
+    #foglalasMentes:hover {
+        background-color: #77dd77; /* Erősebb zöld háttérszín, amikor rámutatunk */
+        transform: translateY(-3px); /* Kisebb mozgás, amikor hover állapotban */
+    }
+
+    /* Aktív állapot (amikor rákattintunk a gombra) */
+    #foglalasMentes:active {
+        background-color: #66cc66; /* Még erősebb zöld, amikor rákattintunk */
+        transform: translateY(1px); /* Kisebb mozgás, amikor rákattintanak */
+    }
+
+   
+
+
+</style>
+
+<div class="edzo-container">
+    <h2>Személyi edzők</h2>
+    @foreach (SzemelyiEdzo edzo in edzok)
+    {
+        <div class="edzo-card">
+            <h5>@edzo.Nev</h5>
+            <p><strong>Kor:</strong> @(currentYear - edzo.Szul_ido.Year)</p>
+            <p><strong>Telefonszám:</strong> @edzo.Telefonszam</p>
+            <p><strong>Email:</strong> @edzo.Email</p>
+            <p><strong>Facebook:</strong> @edzo.Facebook</p>
+            <p><strong>Bio:</strong> @edzo.Bio</p>
+            <p><strong>Mottó:</strong> @edzo.Motto</p>
+            <button class="foglalas-btn" type="button" onclick="startFoglalasProcess(@edzo.ID, '@edzo.Nev', '@edzo.Sportok', '@edzo.Napszak')">
+                Kattints ide a foglaláshoz
+            </button>
+        </div>
+
+    }
+</div>
+
+<div id="foglalasModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Foglalás készítése (<span id="modalEdzoNev"></span>)</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p>Név: <input id="foglaloNeve" /></p>
+                        <p>Edzés típusa: <select id="sportok"></select></p>
+                        <p>Megjegyzés: <textarea id="megjegyzes"></textarea></p>
+                        <input id="idopont" hidden/>
+                    </div>
+                    <div class="col-md-6 text-center" style="font-size: 150%">
+                        <div class="row" style="display: inline-block;">
+                            <button id="visszaButton" type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-backward"></i>
+                            </button>
+
+                            <span id="selectorDate" style="padding: 16px;"></span>
+
+                            <button id="eloreButton" type="button" class="btn btn-default">
+                                <i class="glyphicon glyphicon-forward"></i>
+                            </button>
+                        </div>
+
+                        <div id="selectorButtons" class="row"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="foglalasMentes">Foglalás mentése</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="foglalasConfirmModal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Foglalás megerősítése</h5>
+            </div>
+            <div class="modal-body">
+                <p>Edző: <span id="edzoNeveConfirm"></span></p>
+                <p>Időpont: <span id="idopontConfirm"></span></p>
+                <p>Név: <span id="foglaloNeveConfirm"></span></p>
+                <p>Edzés típusa: <span id="sportokConfirm"></span></p>
+                <p>Megjegyzés: <span id="megjegyzesConfirm"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="foglalasMentesConfirm">Foglalás véglegesítése</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function createFoglalasButtons(edzoID, napszak) {
+        let idopontok = [];
+
+        switch (napszak) {
+            case "de":
+                idopontok = ["8:00", "9:00", "10:00", "11:00"];
+                break;
+            case "du":
+                idopontok = ["13:00", "14:00", "15:00", "16:00"];
+                break;
+            case "egesznap":
+                idopontok = ["8:00", "9:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
+                break;
+        }
+
+        $.ajax({
+            url: "/DesktopModules/SzemelyiEdzok/API/IdopontvalasztoApi/GetFoglalasok",
+            type: "GET",
+            data: {
+                id: edzoID,
+                datum: $("#selectorDate").text()
+            },
+            complete: function (xhr, status) {
+                idopontok = idopontok.filter(time => {
+                    const [hour, minute] = time.split(":");
+                    const formatted = `${hour.padStart(2, '0')}:${minute}`;
+                    return !xhr.responseJSON.includes(formatted);
+                });
+                if ($("#selectorDate").text() === formattedDate) {
+                    idopontok = idopontok.filter(time => {
+                        const [timeHour, timeMinute] = time.split(':').map(Number);
+                        const [currentHour, currentMinute] = currentTime.split(':').map(Number);
+                        const timeInMinutes = timeHour * 60 + timeMinute;
+                        const currentInMinutes = currentHour * 60 + currentMinute;
+                        return timeInMinutes > currentInMinutes;
+                    });
+                }
+                $('#selectorButtons').html('');
+                if (idopontok.length === 0) {
+                    $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
+                } else {
+                    $.each(idopontok, function (index, value) {
+                        let button = $('<button type="button"></button>').text(value);
+                        button.on('click', function () {
+                            $('#idopont').val($('#selectorDate').text() + ' ' + value);
+                            $('#selectorButtons button').removeClass('active');
+                            $(this).addClass('active');
+                        });
+                        $('#selectorButtons').append(button);
+                    });
+                }
+
+                $("#foglalasModal").modal("show");
+            }
+        });
+    };
+
+    const now = new Date();
+    const formattedDate = now.getFullYear() + '.' +
+        ('0' + (now.getMonth() + 1)).slice(-2) + '.' +
+        ('0' + now.getDate()).slice(-2);
+    const currentTime = `${now.getHours()}:${now.getMinutes().toString().padStart(2, '0')}`;
+
+    function startFoglalasProcess(edzoID, edzoNev, sportok, napszak) {
+        $('#sportok').html('');
+        $('#foglaloNeve').val('');
+        $('#megjegyzes').val('');
+        $('#modalEdzoNev').text(edzoNev);
+        
+        sportok.split(';').forEach(function (sport) {
+            $('#sportok').append($('<option>', {
+                text: sport
+            }));
+        })
+
+        //Időpontválasztó init
+        $("#selectorDate").text(formattedDate);
+        createFoglalasButtons(edzoID, napszak)
+
+        $("#visszaButton").off('click');
+        $("#visszaButton").on('click', function () {
+            $('#idopont').val('');
+            var currentDateText = $("#selectorDate").text();
+            var currentDateParts = currentDateText.split('.');
+            var year = parseInt(currentDateParts[0]);
+            var month = parseInt(currentDateParts[1]) - 1;
+            var day = parseInt(currentDateParts[2]);
+            var date = new Date(year, month, day);
+
+            if (currentDateText != formattedDate) {
+                date.setDate(date.getDate() - 1);
+                var newDate = date.getFullYear() + '.' +
+                    ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+                    ('0' + date.getDate()).slice(-2);
+                $("#selectorDate").text(newDate);
+                createFoglalasButtons(edzoID, napszak)
+            }
+        });
+
+        $("#eloreButton").off('click');
+        $("#eloreButton").on('click', function () {
+            $('#idopont').val('');
+            var currentDateText = $("#selectorDate").text();
+            var currentDateParts = currentDateText.split('.');
+            var year = parseInt(currentDateParts[0]);
+            var month = parseInt(currentDateParts[1]) - 1;
+            var day = parseInt(currentDateParts[2]);
+            var date = new Date(year, month, day);
+            date.setDate(date.getDate() + 1);
+            var newDate = date.getFullYear() + '.' +
+                ('0' + (date.getMonth() + 1)).slice(-2) + '.' +
+                ('0' + date.getDate()).slice(-2);
+            $("#selectorDate").text(newDate);
+            createFoglalasButtons(edzoID, napszak)
+        });
+
+        $("#foglalasMentes").off('click')
+        $("#foglalasMentes").on('click', function () {
+            if ($('#selectorButtons button.active').length > 0 && $('#foglaloNeve').val().trim() !== '') {
+                $('#edzoNeveConfirm').text(edzoNev);
+                $('#idopontConfirm').text($('#idopont').val());
+                $('#foglaloNeveConfirm').text($('#foglaloNeve').val());
+                $('#sportokConfirm').text($('#sportok').val());
+                $('#megjegyzesConfirm').text($('#megjegyzes').val());
+
+                $("#foglalasConfirmModal").modal("show");
+            }
+            else {
+                alert('Válasszon időpontot és töltse ki a "Név" mezőt!')
+            }
+        });
+
+        $("#foglalasMentesConfirm").off('click')
+        $("#foglalasMentesConfirm").on('click', function () {
+            $.ajax({
+                url: "@Url.Action("FoglalasKeszites", "SzemelyiEdzok")",
+                type: "POST",
+                data: {
+                    SzemelyiEdzoID: edzoID,
+                    Nev: $('#foglaloNeveConfirm').text(),
+                    Sport: $('#sportokConfirm').text(),
+                    Idopont: $('#idopontConfirm').text(),
+                    Megjegyzes: $('#megjegyzesConfirm').text(),
+                    ModuleId: @Dnn.ActiveModule.ModuleID
+                },
+                complete: function (xhr, status) {
+                    window.location.href = "Foglalasok";
+                    alert("Sikeres foglalás!")
+                }
+            });
+        });
+    }
+</script>
