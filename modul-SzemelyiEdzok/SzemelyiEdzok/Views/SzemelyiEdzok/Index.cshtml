@@ -266,7 +266,7 @@
                             </button>
                         </div>
 
-                        <div id="selectorButtons" class="row"></div>
+                        <div id="selectorButtons" class="row" style="justify-content:center"></div>
                     </div>
                 </div>
             </div>
@@ -342,14 +342,27 @@
                     $('#selectorButtons').append('<span>Nincs elérhető időpont a kiválasztott napon!</span>');
                 } else {
                     $.each(idopontok, function (index, value) {
-                        let button = $('<button type="button"></button>').text(value);
+                        let container = $('<div class="col-md-4"></div>')
+                        let button = $('<button type="button" class="col-md-4"></button>').text(value);
                         button.on('click', function () {
                             $('#idopont').val($('#selectorDate').text() + ' ' + value);
                             $('#selectorButtons button').removeClass('active');
                             $(this).addClass('active');
                         });
-                        $('#selectorButtons').append(button);
+                        container.append(button)
+                        $('#selectorButtons').append(container);
                     });
+                    if (idopontok.length % 3 == 1) {
+                        console.log("1")
+                        let container = $('<div class="col-md-4"></div>')
+                        $('#selectorButtons').append(container);
+                        container = $('<div class="col-md-4"></div>')
+                        $('#selectorButtons').append(container);
+                    }
+                    if (idopontok.length % 3 == 2) {
+                        let container = $('<div class="col-md-4"></div>')
+                        $('#selectorButtons').append(container);
+                    }
                 }
 
                 $("#foglalasModal").modal("show");
