@@ -208,7 +208,10 @@
         transform: translateY(1px); /* Kisebb mozgás, amikor rákattintanak */
     }
 
-   
+   img{
+       height:500px;
+       width:500px;
+   }
 
 
 </style>
@@ -219,6 +222,9 @@
     {
         <div class="edzo-card">
             <h5>@edzo.Nev</h5>
+            <img src="edzokepek/@(edzo.ID).png"
+                 onerror="this.onerror=null; this.src='edzokepek/peter.png';"
+                 alt="Edzőkép">
             <p><strong>Kor:</strong> @(currentYear - edzo.Szul_ido.Year)</p>
             <p><strong>Telefonszám:</strong> @edzo.Telefonszam</p>
             <p><strong>Email:</strong> @edzo.Email</p>
