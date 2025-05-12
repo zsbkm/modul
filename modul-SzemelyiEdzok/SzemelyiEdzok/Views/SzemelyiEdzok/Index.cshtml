@@ -447,6 +447,7 @@
 
         $("#foglalasMentesConfirm").off('click')
         $("#foglalasMentesConfirm").on('click', function () {
+            $("#foglalasMentesConfirm").prop('disabled',true)
             $.ajax({
                 url: "@Url.Action("FoglalasKeszites", "SzemelyiEdzok")",
                 type: "POST",
