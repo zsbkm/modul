@@ -32,6 +32,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
         {
             UserInfo currentUser = UserController.GetCurrentUserInfo();
 
+            /*
             Api proxy = new Api("http://rendfejl1000.northeurope.cloudapp.azure.com:8080/", HotCakesApiKey);
 
             var order = new OrderDTO();
@@ -69,6 +70,7 @@ namespace SzemelyiEdzokSzemelyiEdzok.Services.Implementations
 
             // call the API to create the order
             ApiResponse<OrderDTO> response = proxy.OrdersCreate(order);
+            */
 
             using (var ctx = DataContext.Instance())
             {
